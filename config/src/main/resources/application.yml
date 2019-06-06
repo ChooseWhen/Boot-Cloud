@@ -1,0 +1,31 @@
+server:
+  port: 8888
+
+eureka:
+  instance:
+    hostname: registry
+    prefer-ip-address: true
+    metadata-map:
+      user.name: ${security.user.name}
+      user.password: ${security.user.password}
+  client:
+    service-url:
+      defaultZone: http://user:${REGISTRY_SERVER_PASSWORD:password}@localhost:8761/eureka/
+
+spring:
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/ChooseWhen/config
+          search-paths: TestConfig
+  rabbitmq:
+    host: rabbitmq
+    username: guest
+    password: guest
+    addresses: localhost
+
+security:
+  user:
+    name: user
+    password: ${CONFIG_SERVER_PASSWORD:password}
